@@ -1,0 +1,27 @@
+{% extends "onlinecourse/user_courses_bootstrap.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ course.name }} — Exam</h2>
+  <form method="post" action="{% url 'onlinecourse:submit' course.id %}">
+    {% csrf_token %}
+    {% for question in questions %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ forloop.counter }}. {{ question.question_text }}</h5>
+          {% for choice in question.choice_set.all %}
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                     name="choice_{{ question.id }}" value="{{ choice.id }}"
+                     id="choice{{ choice.id }}">
+              <label class="form-check-label" for="choice{{ choice.id }}">
+                {{ choice.choice_text }}
+              </label>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-success">Submit Exam</button>
+  </form>
+</div>
+{% endblock %}

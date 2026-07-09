@@ -1,0 +1,30 @@
+{% extends "onlinecourse/user_courses_bootstrap.html" %}
+{% block content %}
+<div class="container mt-4">
+  {% if passed %}
+    <div class="alert alert-success">
+      <h2>Congratulations!</h2>
+      <p>You passed the exam for <strong>{{ course.name }}</strong>.</p>
+    </div>
+  {% else %}
+    <div class="alert alert-warning">
+      <h2>Exam Complete</h2>
+      <p>You did not reach the passing score for <strong>{{ course.name }}</strong>. Try again!</p>
+    </div>
+  {% endif %}
+
+  <h4>Your Score: {{ grade }} / {{ total_possible }}</h4>
+
+  <hr>
+  <h5>Your Selected Answers:</h5>
+  <ul class="list-group mb-4">
+    {% for choice in choices %}
+      <li class="list-group-item">{{ choice.choice_text }}</li>
+    {% empty %}
+      <li class="list-group-item">No answers were selected.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'onlinecourse:course_details' course.id %}" class="btn btn-primary">Back to Course</a>
+</div>
+{% endblock %}
